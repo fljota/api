@@ -1,0 +1,235 @@
+<html>
+
+<head>
+    <style>
+        div {
+            margin: 2em;
+        }
+
+        h2 {
+            display: inline;
+        }
+
+        span {
+            height: 3em;
+            vertical-align: top;
+            margin: 1em;
+        }
+
+        .showstatus {
+            position: absolute;
+            width: 100%;
+            background-color: azure;
+            top: 0px
+        }
+
+        .animated {
+            -webkit-animation-duration: 5s;
+            animation-duration: 5s;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+        }
+
+        @-webkit-keyframes pulse {
+            0% {
+                -webkit-transform: scale(1);
+            }
+
+            50% {
+                -webkit-transform: scale(1.05);
+            }
+
+            100% {
+                -webkit-transform: scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .pulse {
+            -webkit-animation-name: pulse;
+            animation-name: pulse;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Demo PoC - Hedera Token Service B2B Backend</h1>
+
+
+    <div id="showstatus" class="animated pulse">
+
+    </div>
+
+    <div id="demobuttons">
+        <button id="account">getAccount</button>
+        <button id="newJWTaccount">createAccount</button>
+            </div>
+
+    <script>
+        if (localStorage.getItem("xs2a")) {
+            document.getElementById("showstatus").innerHTML = "JSON Web Token Credentials stored for XS2A. <button id='whipe'>XS2A JWT logout</button>";
+            document.getElementById("whipe").addEventListener("click", function () {
+                localStorage.clear();
+                document.getElementById("showstatus").innerHTML = '';
+            });
+            document.getElementById("account").addEventListener("click", function () {
+                console.info("check balance")
+                fetch('getAccount', {
+                    method: "GET",
+                    headers: {
+                        // "Authorization": "Bearer " + localStorage.getItem("xs2a"),
+                        "x-access-token":  localStorage.getItem("xs2a"),
+                        "Access-Control-Allow-Origin": "http://localhost:3000"
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => console.log(data));
+            });
+
+            document.getElementById("newJWTaccount").addEventListener("click", function () {
+                console.info("create new account")
+                fetch('newAccount', {
+                    method: "GET",
+                    headers: {
+                        // "Authorization": "Bearer " + localStorage.getItem("xs2a"),
+                        "x-access-token":  localStorage.getItem("xs2a"),
+                        "Access-Control-Allow-Origin": "http://localhost:3000"
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => console.log(data));
+            });
+
+            
+
+        }
+
+
+    </script>
+
+<hr />
+
+
+    <div>
+        <input type="radio" id="local" name="cnxtype" />
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="76" height="76" viewBox="0 0 76 76">
+            <g id="Gruppe_125" data-name="Gruppe 125" transform="translate(-83 -243)">
+                <path id="user-lock-solid"
+                    d="M15.1,17.258A8.629,8.629,0,1,0,6.472,8.629,8.629,8.629,0,0,0,15.1,17.258Zm6.472,4.314a4.252,4.252,0,0,1,.546-2.056,9.226,9.226,0,0,0-.977-.1H20.015a11.735,11.735,0,0,1-9.829,0H9.06A9.062,9.062,0,0,0,0,28.473V31.28a3.236,3.236,0,0,0,3.236,3.236H22.172a4.283,4.283,0,0,1-.6-2.157Zm19.415-2.157H38.83V14.022a5.393,5.393,0,0,0-10.786,0v5.393H25.887a2.157,2.157,0,0,0-2.157,2.157V32.358a2.157,2.157,0,0,0,2.157,2.157h15.1a2.157,2.157,0,0,0,2.157-2.157V21.572A2.157,2.157,0,0,0,40.987,19.415Zm-7.55,9.708a2.157,2.157,0,1,1,2.157-2.157A2.157,2.157,0,0,1,33.437,29.123Zm2.157-9.708H31.28V14.022a2.157,2.157,0,1,1,4.314,0Z"
+                    transform="translate(97.331 262.219)" fill="none" stroke="#707070" stroke-width="1" />
+                <g id="Ellipse_31" data-name="Ellipse 31" transform="translate(83 243)" fill="none" stroke="#707070"
+                    stroke-width="5">
+                    <circle cx="38" cy="38" r="38" stroke="none" />
+                    <circle cx="38" cy="38" r="35.5" fill="none" />
+                </g>
+            </g>
+        </svg>
+
+        <span>
+            <h2>LOCAL</h2>
+        </span>
+
+    </div>
+    <div>
+        <input type="radio" id="classic" name="cnxtype" />
+        
+        <svg xmlns="http://www.w3.org/2000/svg" width="76" height="76" viewBox="0 0 76 76">
+            <g id="Gruppe_124" data-name="Gruppe 124" transform="translate(-83 -336)">
+                <g id="Ellipse_32" data-name="Ellipse 32" transform="translate(83 336)" fill="none" stroke="#707070"
+                    stroke-width="5">
+                    <circle cx="38" cy="38" r="38" stroke="none" />
+                    <circle cx="38" cy="38" r="35.5" fill="none" />
+                </g>
+                <path id="server-solid"
+                    d="M40.839,42.89H2.723A2.723,2.723,0,0,1,0,40.168V34.723A2.723,2.723,0,0,1,2.723,32H40.839a2.723,2.723,0,0,1,2.723,2.723v5.445A2.723,2.723,0,0,1,40.839,42.89ZM36.755,35.4A2.042,2.042,0,1,0,38.8,37.445,2.042,2.042,0,0,0,36.755,35.4Zm-5.445,0a2.042,2.042,0,1,0,2.042,2.042A2.042,2.042,0,0,0,31.31,35.4Zm9.529,21.1H2.723A2.723,2.723,0,0,1,0,53.781V48.335a2.723,2.723,0,0,1,2.723-2.723H40.839a2.723,2.723,0,0,1,2.723,2.723v5.445A2.723,2.723,0,0,1,40.839,56.5Zm-4.084-7.487A2.042,2.042,0,1,0,38.8,51.058,2.042,2.042,0,0,0,36.755,49.016Zm-5.445,0a2.042,2.042,0,1,0,2.042,2.042A2.042,2.042,0,0,0,31.31,49.016Zm9.529,21.1H2.723A2.723,2.723,0,0,1,0,67.393V61.948a2.723,2.723,0,0,1,2.723-2.723H40.839a2.723,2.723,0,0,1,2.723,2.723v5.445A2.723,2.723,0,0,1,40.839,70.116Zm-4.084-7.487A2.042,2.042,0,1,0,38.8,64.671,2.042,2.042,0,0,0,36.755,62.629Zm-5.445,0a2.042,2.042,0,1,0,2.042,2.042A2.042,2.042,0,0,0,31.31,62.629Z"
+                    transform="translate(99.219 322.942)" fill="none" stroke="#707070" stroke-width="1" />
+            </g>
+        </svg>
+
+        <span>
+            <h2>CLASSIC</h2>
+        </span>
+
+    </div>
+
+    <div>
+        <input type="radio" id="hts" name="cnxtype" checked />
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="76" height="76" viewBox="0 0 76 76">
+            <g id="Gruppe_123" data-name="Gruppe 123" transform="translate(-83 -444)">
+                <g id="Ellipse_33" data-name="Ellipse 33" transform="translate(83 444)" fill="none" stroke="#707070"
+                    stroke-width="5">
+                    <circle cx="38" cy="38" r="38" stroke="none" />
+                    <circle cx="38" cy="38" r="35.5" fill="none" />
+                </g>
+                <line id="Linie_16" data-name="Linie 16" x2="21" transform="translate(110.5 477.5)" fill="none"
+                    stroke="#707070" stroke-width="4" />
+                <line id="Linie_17" data-name="Linie 17" x2="21" transform="translate(110.5 485.5)" fill="none"
+                    stroke="#707070" stroke-width="4" />
+                <line id="Linie_18" data-name="Linie 18" y2="27" transform="translate(131.5 468.5)" fill="none"
+                    stroke="#707070" stroke-width="4" />
+                <line id="Linie_19" data-name="Linie 19" y2="27" transform="translate(110.5 468.5)" fill="none"
+                    stroke="#707070" stroke-width="4" />
+            </g>
+        </svg>
+
+        <span>
+            <h2>HEDERA TOKEN SERVICE</h2>
+            <input id="jwt"></input><button id="tolocalstorage">save JWT</button>
+            <script>
+                document.getElementById("tolocalstorage").addEventListener("click", function () {
+
+                    let jwt = document.getElementById("jwt").value;
+                    console.info(jwt);
+                    localStorage.setItem("xs2a", jwt);
+
+                });
+
+            </script>
+        </span>
+    </div>
+
+    <hr />
+<div>
+    <h2>Backup Service</h2>
+
+</div>
+
+    <hr />
+
+    <div>
+        <h2>Testing Cases</h2>
+
+        <p>
+            Sharing Accounts
+            
+            <input></input>
+
+<input></input>
+        </p>
+    </div>
+
+    <hr />
+
+    <div>
+        <a href="doc/"><button>Documentation</button></a>
+    </div>
+
+
+</body>
+
+</html>
